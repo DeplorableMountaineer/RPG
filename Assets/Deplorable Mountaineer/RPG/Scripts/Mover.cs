@@ -14,12 +14,14 @@ namespace Deplorable_Mountaineer.RPG {
 
         private void Update(){
             if(Input.GetMouseButtonDown(0)){
-                _lastRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+                MoveToCursor();
             }
+        }
 
-            Debug.DrawRay(_lastRay.origin, _lastRay.direction*100, Color.blue, 1);
-
-            GetComponent<NavMeshAgent>().destination = target.position;
+        private void MoveToCursor(){
+            Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            bool hasHit = Physics.Raycast(ray, out RaycastHit hit);
+            if(hasHit) GetComponent<NavMeshAgent>().destination = hit.point;
         }
     }
 }
