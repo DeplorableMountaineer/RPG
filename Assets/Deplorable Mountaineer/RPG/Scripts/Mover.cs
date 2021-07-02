@@ -2,14 +2,14 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace Deplorable_Mountaineer.RPG {
+    [RequireComponent(typeof(NavMeshAgent))]
     public class Mover : MonoBehaviour {
-        [SerializeField] private Transform target;
-
-        private Ray _lastRay;
         private Camera _mainCamera;
+        private NavMeshAgent _navMeshAgent;
 
         private void Awake(){
             _mainCamera = Camera.main;
+            _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
         private void Update(){
@@ -21,7 +21,7 @@ namespace Deplorable_Mountaineer.RPG {
         private void MoveToCursor(){
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             bool hasHit = Physics.Raycast(ray, out RaycastHit hit);
-            if(hasHit) GetComponent<NavMeshAgent>().destination = hit.point;
+            if(hasHit) _navMeshAgent.destination = hit.point;
         }
     }
 }
